@@ -13,13 +13,14 @@ class NameForm extends React.Component {
       }
 
       handleSubmit(event) {
-        alert('A name was submitted: ' , + this.state.value);
-        event.preventDefault();
+        alert('Greetings, '  + this.state.value + '!');
+
       }
 
 
       render() {
         return (
+          <div>
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
@@ -27,15 +28,11 @@ class NameForm extends React.Component {
             </label>
             <input type="submit" value="Submit" />
           </form>
-        );
-      }
-
-      render() {
-        return (
-          <div>
-          <h1>{this.state.value}</h1>
+          
           </div>
         );
       }
+
+
     }
  export default NameForm;
