@@ -2,7 +2,7 @@ import React from 'react';
 class NameForm extends React.Component {
       constructor(props) {
         super(props);
-        this.state = {value: '' , nameAvailable:false , isValid:props.isValid};
+        this.state = {value: '' , nameAvailable:false , isValid:true};
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,7 +20,6 @@ class NameForm extends React.Component {
         }
         else{
           this.setState({isValid:false})
-          this.setState({nameAvailable:true})
         }
       }
 
@@ -34,15 +33,17 @@ class NameForm extends React.Component {
                 Name:
                 <input type="text" value={this.state.value} onChange={this.handleChange} />
               </label>
+              {(!isValid) ?
+                <div id="errorText">Please enter valid characters.</div> : null
+              }
               <input type="submit" value="Submit" />
             </form>);
             return returnArray;
+          } else {
+            return (<div>Greetings, {this.state.value}!</div>);
           }
-          if (isValid) {
-           return (<div>Please enter valid characters.</div>);
          }
-         return (<div>Greetings, {this.state.value}!</div>);
-        }
+
 
         //    this.setState({nameAvailable:false})
         //    this.setState({isValid:false})
