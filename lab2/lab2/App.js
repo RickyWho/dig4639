@@ -12,32 +12,32 @@ export default class App extends React.Component {
   }
   onChange(event) {
     console.log(event);
-  //  this.setState({value: event.target.value});
+    this.setState={value: this.onChangeText};
   }
 
   onPress() {
   //  event.preventDefault();
     if(!/[^a-zA-Z]/.test(this.onChangeText)) {
-        this.setState({nameAvailable:true})
-        console.log("Pressed TRUE");
-        }
-        else{
-          this.setState({isValid:false})
-          console.log("Pressed FALSE");
-        }
+      this.setState(state => ({
+    isValid: !state.isValid
+  }));
+}
   }
   render() {
-    const { navigate } = this.props.navigation;
+//    const { navigate } = this.props.navigation;
+  const isValid = this.state.isValid
     return (
       <View style={styles.container} flexDirection="column" alignItems='stretch'>
-        <View><TextInput style={styles.textInput} onChangeText={this.onChange} placeholder="Enter your name"></TextInput></View>
-        <TouchableOpacity style={styles.buttonStyle} onPress={() => navigate('SucceedForm')}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
-
+        <View><TextInput style={styles.textInput} onChangeText={this.onChange} value={this.onChangeText} placeholder="Enter your name"></TextInput></View>
+        <TouchableOpacity style={styles.buttonStyle}  onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
+        <Text style={styles.validationText}>{this.state.isValid ? 'Yes, valid' : 'No, not valid'}</Text>
       </View>
 
     );
   }
 }
+//    <Text>The user is <b>{isValid ? 'currently' : 'not'}</b> logged in.</Text>
+
 /*      if(!this.state.nameAvailable) {
           returnArray.push(
             <form onSubmit={this.handleSubmit} key="main">
@@ -67,6 +67,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor:'blue',
     height:75,
+    margin:30,
+  },
+  validationText:
+  {
+    color:"black",
+    fontSize:40,
     margin:30,
   },
   textInput:
