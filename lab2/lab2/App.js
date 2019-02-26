@@ -4,38 +4,88 @@ import { StyleSheet, TouchableOpacity, Text, View, TextInput, Button } from 'rea
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: '' , nameAvailable:false , isValid:true};
+    this.state = {field: {},error: {},validate: {},validForm: false,}
+    this.onChange = this.onChange.bind(this);
     this.onPress = this.onPress.bind(this);
-  }
-  static navigationOptions = {
-    title: 'Form' ,
-  }
-  onChange(event) {
-    console.log(event);
-    this.setState={value: this.onChangeText};
+
   }
 
-  onPress() {
-  //  event.preventDefault();
-    if(!/[^a-zA-Z]/.test(this.onChangeText)) {
+  static navigationOptions = {
+    title: 'Form' ,
+
+  }
+
+  onChange(event) {
+    this.state.field.event = event;
+  //  this.setState={value: this.onChangeText};
+  }
+
+  onPress(event) {
+    event.preventDefault();
+
+    if (this.validateForm()) {
+      let field = {};
+      let validate = {};
+      field["event"] = "";
+      validate["event"] = "Hi, \n" + this.state.field.event;
+      this.setState({
+        field:field,validate:validate,validForm: true
+      });
+
+    }
+
+    console.log("yes");
+  }
+
+  validateForm() {
+    let field = this.state.field;
+    let error = {};
+    let validForm = true;
+
+    /* if(!/[^a-zA-Z]/.test(this.onChangeText)) {
       this.setState(state => ({
     isValid: !state.isValid
-  }));
-}
+    }));
+    } */
+    if (typeof field["event"] !== "undefined") {
+      if (!field["event"].match(/^[A-Za-z ]*$/)) {
+        validForm = false;
+        error["event"] = "Please enter valid characters only.";
+      }
+    }
+    this.setState({
+      error:error
+    });
+    return validForm;
   }
+
   render() {
-//    const { navigate } = this.props.navigation;
-  const isValid = this.state.isValid
     return (
+      /*
       <View style={styles.container} flexDirection="column" alignItems='stretch'>
         <View><TextInput style={styles.textInput} onChangeText={this.onChange} value={this.onChangeText} placeholder="Enter your name"></TextInput></View>
         <TouchableOpacity style={styles.buttonStyle}  onPress={this.onPress}><Text style={styles.buttonText}>Submit</Text></TouchableOpacity>
-        <Text style={styles.validationText}>{this.state.isValid ? 'Yes, valid' : 'No, not valid'}</Text>
+      </View> */
+      <View style={styles.container}>
+        <View>
+          {(!this.state.validForm)  ?
+          <View>
+            <TextInput style={styles.textInput} event="event" onChangeText={this.onChange} placeholder="Please enter a name">
+            </TextInput>
+            <TouchableOpacity style={styles.buttonStyle} onPress={this.onPress}>
+              <Text style={styles.buttonText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+          :  (<Text style={styles.validateText}>{this.state.validate.event}</Text>)}
+        </View>
+        <View>
+          {(this.state.validForm)  ?  null  :  (<Text style={styles.errorText}>{this.state.error.event}</Text>)}
+        </View>
       </View>
-
     );
   }
 }
+// <Text style={styles.validationText}>{this.state.isValid ? 'Yes, valid' : 'No, not valid'}</Text>
 //    <Text>The user is <b>{isValid ? 'currently' : 'not'}</b> logged in.</Text>
 
 /*      if(!this.state.nameAvailable) {
@@ -56,35 +106,39 @@ export default class App extends React.Component {
           }
      */
 const styles = StyleSheet.create({
-  buttonText:
-  {
-    color:"white",
-    fontSize:40
+  buttonText: {
+    color: "white",
+    fontSize: 30
   },
-  buttonStyle:
-  {
+
+  validateText: {
+    color: "green",
+    fontSize: 30,
+  },
+
+  errorText: {
+    color: "red",
+    fontSize: 25,
+  },
+
+  buttonStyle: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor:'blue',
-    height:75,
-    margin:30,
+    backgroundColor: 'black',
+    height: 50,
+    margin: 50,
   },
-  validationText:
-  {
-    color:"black",
-    fontSize:40,
-    margin:30,
+
+  textInput: {
+    margin: 30,
+    height: 75,
+    fontSize: 20
   },
-  textInput:
-  {
-    margin:30,
-    height:75,
-    fontSize:20
+
+  defaultText: {
+    fontSize: 20
   },
-  defaultText:
-  {
-    fontSize:20
-  },
+
   container: {
     flex: 1,
     backgroundColor: '#fff',
