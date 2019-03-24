@@ -1,18 +1,34 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { WebBrowser } from 'expo';
 
-export default class LinksScreen extends React.Component {
+import { MonoText } from '../components/StyledText';
+
+export default class LinkScreen extends React.Component {
   static navigationOptions = {
-    title: 'Links',
+    header: null,
+  };
+  static navigationOptions = {
+    title: 'Info about Cats',
   };
 
   render() {
+            const {navigate} = this.props.navigation;
+
     return (
       <ScrollView style={styles.container}>
-        {/* Go ahead and delete ExpoLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */}
-        <ExpoLinksView />
+                            <Text style={styles.infoText}>Cat</Text>
+
+
       </ScrollView>
     );
   }
@@ -23,5 +39,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
     backgroundColor: '#fff',
+  },
+  infoText: {
+    paddingTop: 30,
+    fontSize: 28,
+    color: 'rgba(96,100,109, 1)',
+    lineHeight: 24,
+    textAlign: 'center',
   },
 });
